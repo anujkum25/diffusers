@@ -1,0 +1,48 @@
+# Llama Fine-tuning Configuration Template
+
+# Model Configuration
+model_name: "meta-llama/Llama-2-7b-hf"  # or "meta-llama/Llama-2-13b-hf", "codellama/CodeLlama-7b-hf"
+output_dir: "./llama-finetuned"
+
+# Dataset Configuration
+dataset_name: "tatsu-lab/alpaca"  # HuggingFace dataset or local JSON file path
+max_length: 512
+test_size: 0.1
+
+# Training Configuration
+num_epochs: 3
+batch_size: 4
+gradient_accumulation_steps: 4
+learning_rate: 2e-5
+warmup_ratio: 0.1
+
+# Optimization Settings
+use_4bit: true        # Enable 4-bit quantization (QLoRA)
+use_8bit: false       # Enable 8-bit quantization
+use_lora: true        # Use LoRA for parameter-efficient fine-tuning
+use_trainer: true     # Use HuggingFace Trainer (recommended)
+
+# LoRA Configuration
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.1
+lora_target_modules:
+  - "q_proj"
+  - "k_proj"
+  - "v_proj"
+  - "o_proj"
+  - "gate_proj"
+  - "up_proj"
+  - "down_proj"
+
+# Logging Configuration
+use_wandb: false
+wandb_project: "llama-finetune"
+logging_steps: 10
+eval_steps: 100
+save_steps: 500
+
+# Hardware Configuration
+device_map: "auto"
+bf16: true
+dataloader_num_workers: 4
